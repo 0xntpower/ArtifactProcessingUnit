@@ -5,7 +5,7 @@ namespace apu {
 	class PdfProcessor final : public IArtifactProcessor {
 	public:
 		PdfProcessor();
-		AnalysisResult process(std::string uuid) override;
+		bool process(std::string uuid) override;
 	};
 
 } // namespace apu

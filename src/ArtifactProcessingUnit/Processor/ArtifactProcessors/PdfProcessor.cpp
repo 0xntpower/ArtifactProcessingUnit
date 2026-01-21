@@ -14,7 +14,7 @@ namespace apu {
 		: IArtifactProcessor("PdfProcessor", "Extracts all content and figures our what it is from pdf documents.") {
 	}
 
-	AnalysisResult PdfProcessor::process(std::string uuid) {
+	bool PdfProcessor::process(std::string uuid) {
 		spdlog::info(std::format("Processing %s as pdf artifact.", uuid));
 		return true;
 	}

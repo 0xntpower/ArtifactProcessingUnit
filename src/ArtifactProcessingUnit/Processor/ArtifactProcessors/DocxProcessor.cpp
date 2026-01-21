@@ -6,7 +6,6 @@
 
 #include "../ContentProcessors/LanguageProcessor.hpp"
 #include "../ContentProcessors/TextProcessor.hpp"
-#include "../ContentProcessors/ImageProcessor.hpp"
 
 namespace apu {
 
@@ -35,6 +34,7 @@ namespace apu {
 		// TODO write interestLevel and description to MetaData in db
 
 		if (interestLevel == InterestLevel::Critical) {
+			spdlog::info("Sending email alert about critical information.");
 			// TODO send an email to someone
 		}
 
