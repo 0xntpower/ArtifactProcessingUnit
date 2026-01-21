@@ -148,8 +148,10 @@
     <ClCompile Include="Processor\ContentExtractors\PdfExtractor.cpp" />
     <ClCompile Include="Processor\ContentProcessors\TextProcessor.cpp" />
     <ClCompile Include="Processor\ContentProcessors\TextProcessor.hpp" />
+    <ClCompile Include="Common\Uuid.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Processor\IArtifactProcessor.hpp" />
     <ClInclude Include="Manager\ArtifactsManager.hpp" />
     <ClInclude Include="Common\Blake3.hpp" />
     <ClInclude Include="Common\Config.hpp" />
@@ -161,6 +163,7 @@
     <ClInclude Include="pch.hpp" />
     <ClInclude Include="Processor\ContentExtractors\PdfExtractor.hpp" />
     <ClInclude Include="Common\Types.hpp" />
+    <ClInclude Include="Common\Uuid.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

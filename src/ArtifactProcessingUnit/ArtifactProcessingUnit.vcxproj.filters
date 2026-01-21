@@ -105,6 +105,9 @@
     <ClCompile Include="Common\FileTypeDetector.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
+    <ClCompile Include="Common\Uuid.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.hpp">
@@ -138,6 +141,12 @@
       <Filter>Header Files\Processor\ContentExtractors</Filter>
     </ClInclude>
     <ClInclude Include="Common\FileTypeDetector.hpp">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Processor\IArtifactProcessor.hpp">
+      <Filter>Header Files\Processor</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Uuid.hpp">
       <Filter>Header Files\Common</Filter>
     </ClInclude>
   </ItemGroup>
