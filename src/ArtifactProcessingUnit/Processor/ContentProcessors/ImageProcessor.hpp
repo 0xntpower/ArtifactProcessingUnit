@@ -1,7 +1,13 @@
+#pragma once
+
 #include "../IContentProcessor.hpp"
 
-class ImageProcessor final : public IContentProcessor {
-public:
-	ImageProcessor();
-	bool process(std::string uuid) override;
-};
+namespace apu {
+
+	class ImageProcessor final : public IContentProcessor {
+	public:
+		ImageProcessor();
+		AnalysisResult process(std::string uuid) override;
+	};
+
+} // namespace apu

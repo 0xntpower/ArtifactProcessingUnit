@@ -55,6 +55,12 @@
     <Filter Include="Source Files\Processor\ContentProcessors">
       <UniqueIdentifier>{dea7fa36-ee01-49e0-9060-1588a21cae9b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Processor\ArtifactProcessors">
+      <UniqueIdentifier>{47250b40-b1eb-4c9e-a8b0-a65209d80d22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Processor\ArtifactProcessors">
+      <UniqueIdentifier>{3855019c-6b70-4188-b84f-2e7ba4ac6880}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -108,6 +114,15 @@
     <ClCompile Include="Common\Uuid.cpp">
       <Filter>Source Files\Common</Filter>
     </ClCompile>
+    <ClCompile Include="Processor\ArtifactProcessors\DocxProcessor.cpp">
+      <Filter>Source Files\Processor\ArtifactProcessors</Filter>
+    </ClCompile>
+    <ClCompile Include="Processor\ArtifactProcessors\PdfProcessor.cpp">
+      <Filter>Source Files\Processor\ArtifactProcessors</Filter>
+    </ClCompile>
+    <ClCompile Include="Processor\ContentProcessors\LanguageProcessor.cpp">
+      <Filter>Source Files\Processor\ContentProcessors</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.hpp">
@@ -148,6 +163,18 @@
     </ClInclude>
     <ClInclude Include="Common\Uuid.hpp">
       <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Processor\ArtifactProcessors\DocxProcessor.hpp">
+      <Filter>Header Files\Processor\ArtifactProcessors</Filter>
+    </ClInclude>
+    <ClInclude Include="Processor\ArtifactProcessors\PdfProcessor.hpp">
+      <Filter>Header Files\Processor\ArtifactProcessors</Filter>
+    </ClInclude>
+    <ClInclude Include="Processor\ContentProcessors\LanguageProcessor.hpp">
+      <Filter>Header Files\Processor\ContentProcessors</Filter>
+    </ClInclude>
+    <ClInclude Include="AnalysisResult.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

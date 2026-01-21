@@ -133,6 +133,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Common\FileTypeDetector.cpp" />
+    <ClCompile Include="Processor\ContentProcessors\LanguageProcessor.cpp" />
+    <ClCompile Include="Processor\ArtifactProcessors\PdfProcessor.cpp" />
+    <ClCompile Include="Processor\ArtifactProcessors\DocxProcessor.cpp" />
     <ClCompile Include="Receiver\ArtifactReceiver.hpp" />
     <ClCompile Include="Manager\ArtifactsManager.cpp" />
     <ClCompile Include="Receiver\ArtifactsReceiver.cpp" />
@@ -151,6 +154,10 @@
     <ClCompile Include="Common\Uuid.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnalysisResult.hpp" />
+    <ClInclude Include="Processor\ContentProcessors\LanguageProcessor.hpp" />
+    <ClInclude Include="Processor\ArtifactProcessors\PdfProcessor.hpp" />
+    <ClInclude Include="Processor\ArtifactProcessors\DocxProcessor.hpp" />
     <ClInclude Include="Processor\IArtifactProcessor.hpp" />
     <ClInclude Include="Manager\ArtifactsManager.hpp" />
     <ClInclude Include="Common\Blake3.hpp" />

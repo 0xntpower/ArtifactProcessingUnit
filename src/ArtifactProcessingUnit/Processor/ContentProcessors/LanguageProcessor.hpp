@@ -4,9 +4,9 @@
 
 namespace apu {
 
-	class TextProcessor final : public IContentProcessor {
+	class LanguageProcessor final : public IContentProcessor {
 	public:
-		TextProcessor();
+		LanguageProcessor();
 		AnalysisResult process(std::string uuid) override;
 	};
 
