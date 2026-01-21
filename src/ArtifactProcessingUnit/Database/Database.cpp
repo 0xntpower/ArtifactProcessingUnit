@@ -26,13 +26,25 @@ namespace apu {
             )
         )";
 
-        constexpr char kCreateExtractedContentTable[] = R"(
+        constexpr char kCreateExtractedContentTableFts5[] = R"(
             CREATE VIRTUAL TABLE IF NOT EXISTS extracted_content USING fts5(
                 artifact_id UNINDEXED,
                 content,
                 tokenize='porter unicode61'
             )
         )";
+
+        constexpr char kCreateExtractedContentTableRegular[] = R"(
+            CREATE TABLE IF NOT EXISTS extracted_content (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                artifact_id TEXT NOT NULL,
+                content TEXT,
+                FOREIGN KEY (artifact_id) REFERENCES artifacts(unique_id)
+            )
+        )";
+
+        constexpr char kCreateExtractedContentIndex[] =
+            "CREATE INDEX IF NOT EXISTS idx_extracted_artifact_id ON extracted_content(artifact_id)";
 
         constexpr char kCreateInterestLevelIndex[] =
             "CREATE INDEX IF NOT EXISTS idx_interest_level ON artifacts(interest_level)";
@@ -52,7 +64,22 @@ namespace apu {
             SQLite::OPEN_READWRITE | SQLite::OPEN_CREATE);
 
         db_->exec(kCreateArtifactsTable);
-        db_->exec(kCreateExtractedContentTable);
+
+        // Try FTS5 first, fall back to regular table if not available
+        try {
+            db_->exec(kCreateExtractedContentTableFts5);
+            spdlog::info("Database initialized with FTS5 full-text search support");
+        } catch (const SQLite::Exception& e) {
+            if (std::string(e.what()).find("fts5") != std::string::npos ||
+                std::string(e.what()).find("no such module") != std::string::npos) {
+                spdlog::warn("FTS5 not available, using regular table for extracted content");
+                db_->exec(kCreateExtractedContentTableRegular);
+                db_->exec(kCreateExtractedContentIndex);
+            } else {
+                throw;
+            }
+        }
+
         db_->exec(kCreateInterestLevelIndex);
         db_->exec(kCreateStateIndex);
 
