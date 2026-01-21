@@ -13,10 +13,132 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Receiver">
+      <UniqueIdentifier>{ab08018d-4563-4210-81d2-2ff0d01791f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Manager">
+      <UniqueIdentifier>{fbdc53ba-0bcf-41f5-a575-de0445078397}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Processor">
+      <UniqueIdentifier>{5cc032bd-1c5f-48e5-ba46-f5a9e584644f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Processor\ContentExtractors">
+      <UniqueIdentifier>{920d812a-ea59-4635-b69a-a212e76d0ac8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Processor\ContentProcessors">
+      <UniqueIdentifier>{2d092563-25a5-45ed-956f-37214480c610}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Database">
+      <UniqueIdentifier>{72676690-22d0-48a6-8854-5671dcef1889}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Common">
+      <UniqueIdentifier>{1a777268-08f7-4c8c-a1d3-3695d94e7fdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Manager">
+      <UniqueIdentifier>{53bccef5-a807-4b20-bb93-5134e1463b24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Database">
+      <UniqueIdentifier>{b6ec8fa4-43ed-4e11-a8e7-42338d0645fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Common">
+      <UniqueIdentifier>{8bd12e26-04a4-4476-8776-02ce3242fafa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Processor">
+      <UniqueIdentifier>{a0e4a4d5-b6b9-4f91-9437-ce4f30d1f399}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Receiver">
+      <UniqueIdentifier>{beed9910-48db-4572-8c91-ca26fb7c6a22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Processor\ContentExtractors">
+      <UniqueIdentifier>{a971cc78-6eae-482d-9961-4cd8d85d1de7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Processor\ContentProcessors">
+      <UniqueIdentifier>{dea7fa36-ee01-49e0-9060-1588a21cae9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Processor\IContentExtractor.hpp">
+      <Filter>Header Files\Processor</Filter>
+    </ClCompile>
+    <ClCompile Include="Processor\ContentProcessors\TextProcessor.hpp">
+      <Filter>Header Files\Processor\ContentProcessors</Filter>
+    </ClCompile>
+    <ClCompile Include="Receiver\ArtifactReceiver.hpp">
+      <Filter>Header Files\Receiver</Filter>
+    </ClCompile>
+    <ClCompile Include="Processor\ContentExtractors\DocxExtractor.cpp">
+      <Filter>Source Files\Processor\ContentExtractors</Filter>
+    </ClCompile>
+    <ClCompile Include="Processor\ContentExtractors\PdfExtractor.cpp">
+      <Filter>Source Files\Processor\ContentExtractors</Filter>
+    </ClCompile>
+    <ClCompile Include="Processor\ContentProcessors\ImageProcessor.cpp">
+      <Filter>Source Files\Processor\ContentProcessors</Filter>
+    </ClCompile>
+    <ClCompile Include="Processor\ContentProcessors\TextProcessor.cpp">
+      <Filter>Source Files\Processor\ContentProcessors</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Config.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Database\Database.cpp">
+      <Filter>Source Files\Database</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\ArtifactsManager.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager\BatchProcessor.cpp">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="Receiver\ArtifactsReceiver.cpp">
+      <Filter>Source Files\Receiver</Filter>
+    </ClCompile>
+    <ClCompile Include="Receiver\ChunkAssembler.cpp">
+      <Filter>Source Files\Receiver</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\FileTypeDetector.cpp">
+      <Filter>Source Files\Common</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Processor\IContentProcessor.hpp">
+      <Filter>Header Files\Processor</Filter>
+    </ClInclude>
+    <ClInclude Include="Processor\ContentExtractors\DocxExtractor.hpp">
+      <Filter>Header Files\Processor\ContentExtractors</Filter>
+    </ClInclude>
+    <ClInclude Include="Processor\ContentProcessors\ImageProcessor.hpp">
+      <Filter>Header Files\Processor\ContentProcessors</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager\ArtifactsManager.hpp">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Database\Database.hpp">
+      <Filter>Header Files\Database</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Config.hpp">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Types.hpp">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Blake3.hpp">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Processor\ContentExtractors\PdfExtractor.hpp">
+      <Filter>Header Files\Processor\ContentExtractors</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\FileTypeDetector.hpp">
+      <Filter>Header Files\Common</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
