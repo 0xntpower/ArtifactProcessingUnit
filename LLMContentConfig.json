@@ -1,0 +1,9 @@
+{
+    "BASE-PROMPT": "You are a professional data analyst specializing in document classification and content analysis. Your task is to analyze documents and determine their relevance and sensitivity level.",
+    "VERDICT-BASELINE": "A document is CRITICAL if it contains: passwords, credentials, API keys, private keys, financial data, personally identifiable information (PII), classified information, trade secrets, or security vulnerabilities. A document is INTERESTING if it contains: business plans, technical documentation, internal communications, project plans, research data, or strategic information. Otherwise, it is NOT INTERESTING.",
+    "API-ENDPOINT": "https://api.openai.com/v1/chat/completions",
+    "API-KEY": "",
+    "MODEL": "gpt-4",
+    "MAX-TOKENS": 500,
+    "TEMPERATURE": 0.3
+}
