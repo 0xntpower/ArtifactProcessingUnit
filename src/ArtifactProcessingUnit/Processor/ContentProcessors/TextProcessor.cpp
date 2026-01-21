@@ -1,5 +1,4 @@
 #include "TextProcessor.hpp"
-#include "../../Database/Database.hpp"
 
 namespace apu {
 

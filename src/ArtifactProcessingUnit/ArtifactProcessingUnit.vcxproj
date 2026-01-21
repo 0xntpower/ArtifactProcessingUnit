@@ -29,7 +29,7 @@
     <VcpkgEnabled>true</VcpkgEnabled>
     <VcpkgEnableManifest>true</VcpkgEnableManifest>
     <VcpkgManifestInstall>true</VcpkgManifestInstall>
-    <VcpkgTriplet>x64-windows</VcpkgTriplet>
+    <VcpkgTriplet>x64-windows-static</VcpkgTriplet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -111,10 +111,12 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <TreatAngleIncludeAsExternal>true</TreatAngleIncludeAsExternal>
       <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\vcpkg_installed\x64-windows-static\debug\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -125,52 +127,55 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\..\vcpkg_installed\x64-windows-static\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Common\FileTypeDetector.cpp" />
-    <ClCompile Include="Processor\ContentProcessors\LanguageProcessor.cpp" />
-    <ClCompile Include="Processor\ArtifactProcessors\PdfProcessor.cpp" />
-    <ClCompile Include="Processor\ArtifactProcessors\DocxProcessor.cpp" />
-    <ClCompile Include="Receiver\ArtifactReceiver.hpp" />
-    <ClCompile Include="Manager\ArtifactsManager.cpp" />
-    <ClCompile Include="Receiver\ArtifactsReceiver.cpp" />
-    <ClCompile Include="Manager\BatchProcessor.cpp" />
-    <ClCompile Include="Receiver\ChunkAssembler.cpp" />
+    <ClCompile Include="Common\Blake3.cpp" />
     <ClCompile Include="Common\Config.cpp" />
+    <ClCompile Include="Common\FileTypeDetector.cpp" />
+    <ClCompile Include="Common\Uuid.cpp" />
     <ClCompile Include="Database\Database.cpp" />
+    <ClCompile Include="Manager\ArtifactsManager.cpp" />
+    <ClCompile Include="Manager\BatchProcessor.cpp" />
+    <ClCompile Include="Processor\ArtifactProcessors\DocxProcessor.cpp" />
+    <ClCompile Include="Processor\ArtifactProcessors\PdfProcessor.cpp" />
     <ClCompile Include="Processor\ContentExtractors\DocxExtractor.cpp" />
-    <ClCompile Include="Processor\IContentExtractor.hpp" />
+    <ClCompile Include="Processor\ContentExtractors\PdfExtractor.cpp" />
     <ClCompile Include="Processor\ContentProcessors\ImageProcessor.cpp" />
+    <ClCompile Include="Processor\ContentProcessors\LanguageProcessor.cpp" />
+    <ClCompile Include="Processor\ContentProcessors\TextProcessor.cpp" />
+    <ClCompile Include="Receiver\ArtifactsReceiver.cpp" />
+    <ClCompile Include="Receiver\ChunkAssembler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pch.cpp" />
-    <ClCompile Include="Processor\ContentExtractors\PdfExtractor.cpp" />
-    <ClCompile Include="Processor\ContentProcessors\TextProcessor.cpp" />
-    <ClCompile Include="Processor\ContentProcessors\TextProcessor.hpp" />
-    <ClCompile Include="Common\Uuid.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnalysisResult.hpp" />
-    <ClInclude Include="Processor\ContentProcessors\LanguageProcessor.hpp" />
-    <ClInclude Include="Processor\ArtifactProcessors\PdfProcessor.hpp" />
-    <ClInclude Include="Processor\ArtifactProcessors\DocxProcessor.hpp" />
-    <ClInclude Include="Processor\IArtifactProcessor.hpp" />
-    <ClInclude Include="Manager\ArtifactsManager.hpp" />
     <ClInclude Include="Common\Blake3.hpp" />
     <ClInclude Include="Common\Config.hpp" />
-    <ClInclude Include="Database\Database.hpp" />
-    <ClInclude Include="Processor\ContentExtractors\DocxExtractor.hpp" />
     <ClInclude Include="Common\FileTypeDetector.hpp" />
-    <ClInclude Include="Processor\IContentProcessor.hpp" />
-    <ClInclude Include="Processor\ContentProcessors\ImageProcessor.hpp" />
-    <ClInclude Include="pch.hpp" />
-    <ClInclude Include="Processor\ContentExtractors\PdfExtractor.hpp" />
     <ClInclude Include="Common\Types.hpp" />
     <ClInclude Include="Common\Uuid.hpp" />
+    <ClInclude Include="Database\Database.hpp" />
+    <ClInclude Include="Manager\ArtifactsManager.hpp" />
+    <ClInclude Include="Processor\ArtifactProcessors\DocxProcessor.hpp" />
+    <ClInclude Include="Processor\ArtifactProcessors\PdfProcessor.hpp" />
+    <ClInclude Include="Processor\ContentExtractors\DocxExtractor.hpp" />
+    <ClInclude Include="Processor\ContentExtractors\PdfExtractor.hpp" />
+    <ClInclude Include="Processor\ContentProcessors\ImageProcessor.hpp" />
+    <ClInclude Include="Processor\ContentProcessors\LanguageProcessor.hpp" />
+    <ClInclude Include="Processor\ContentProcessors\TextProcessor.hpp" />
+    <ClInclude Include="Processor\IArtifactProcessor.hpp" />
+    <ClInclude Include="Processor\IContentExtractor.hpp" />
+    <ClInclude Include="Processor\IContentProcessor.hpp" />
+    <ClInclude Include="Receiver\ArtifactReceiver.hpp" />
+    <ClInclude Include="pch.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

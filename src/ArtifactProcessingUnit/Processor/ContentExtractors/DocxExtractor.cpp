@@ -1,5 +1,4 @@
 #include "DocxExtractor.hpp"
-#include <pugixml.hpp>
 
 namespace apu {
 
@@ -40,9 +39,10 @@ namespace apu {
         zip_t* archive = zip_open(uuid.c_str(), ZIP_RDONLY, &err);
 
         if (!archive) {
-            char errBuf[256];
-            zip_error_to_str(errBuf, sizeof(errBuf), err, errno);
-            spdlog::error("Failed to open DOCX archive {}: {}", uuid, errBuf);
+            zip_error_t error;
+            zip_error_init_with_code(&error, err);
+            spdlog::error("Failed to open DOCX archive {}: {}", uuid, zip_error_strerror(&error));
+            zip_error_fini(&error);
             return "";
         }
 

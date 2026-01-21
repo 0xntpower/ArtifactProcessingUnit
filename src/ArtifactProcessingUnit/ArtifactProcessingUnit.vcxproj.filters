@@ -69,15 +69,6 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Processor\IContentExtractor.hpp">
-      <Filter>Header Files\Processor</Filter>
-    </ClCompile>
-    <ClCompile Include="Processor\ContentProcessors\TextProcessor.hpp">
-      <Filter>Header Files\Processor\ContentProcessors</Filter>
-    </ClCompile>
-    <ClCompile Include="Receiver\ArtifactReceiver.hpp">
-      <Filter>Header Files\Receiver</Filter>
-    </ClCompile>
     <ClCompile Include="Processor\ContentExtractors\DocxExtractor.cpp">
       <Filter>Source Files\Processor\ContentExtractors</Filter>
     </ClCompile>
@@ -122,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="Processor\ContentProcessors\LanguageProcessor.cpp">
       <Filter>Source Files\Processor\ContentProcessors</Filter>
+    </ClCompile>
+    <ClCompile Include="Common\Blake3.cpp">
+      <Filter>Source Files\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -174,6 +168,15 @@
       <Filter>Header Files\Processor\ContentProcessors</Filter>
     </ClInclude>
     <ClInclude Include="AnalysisResult.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Processor\ContentProcessors\TextProcessor.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Processor\IContentExtractor.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Receiver\ArtifactReceiver.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
