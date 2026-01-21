@@ -1,44 +1,67 @@
 #include "DocxProcessor.hpp"
-
-#include "../../AnalysisResult.hpp"
-
 #include "../ContentExtractors/DocxExtractor.hpp"
-
 #include "../ContentProcessors/LanguageProcessor.hpp"
 #include "../ContentProcessors/TextProcessor.hpp"
 
 namespace apu {
 
-	DocxProcessor::DocxProcessor()
-		: IArtifactProcessor("DocxProcessor", "Extracts all content and figures our what it is from docx documents.") {
-	}
+    DocxProcessor::DocxProcessor(Database* database, const std::filesystem::path& artifactsDir)
+        : IArtifactProcessor("DocxProcessor", "Extracts content and analyzes DOCX documents"),
+          database_(database),
+          artifactsDir_(artifactsDir) {
+    }
 
-	bool DocxProcessor::process(std::string uuid) {
-		spdlog::info(std::format("Processing %s as docx artifact.", uuid));
+    bool DocxProcessor::process(std::string uuid) {
+        const auto artifactPath = artifactsDir_ / uuid;
 
-		InterestLevel interestLevel = InterestLevel::None;
+        if (!std::filesystem::exists(artifactPath)) {
+            spdlog::error("Artifact file not found: {}", uuid);
+            return false;
+        }
 
-		std::unique_ptr<DocxExtractor> docxExtractor = std::make_unique<DocxExtractor>();
-		std::string content = docxExtractor->extract(uuid);
-		// TODO write content to MetaData in db
+        // Check if this is actually a DOCX file
+        const auto fileType = fileTypeDetector_.DetectFormat(artifactPath);
+        if (fileType != "DOCX") {
+            spdlog::debug("Skipping non-DOCX file: {} (type: {})", uuid, fileType);
+            return false;
+        }
 
-		AnalysisResult analysisResult;
+        spdlog::info("Processing {} as DOCX artifact", uuid);
 
-		std::unique_ptr<LanguageProcessor> langExtractor = std::make_unique<LanguageProcessor>();
-		analysisResult = langExtractor->process(uuid);
-		// TODO write language to MetaData in db
+        // Extract content
+        DocxExtractor extractor;
+        const std::string content = extractor.extract(artifactPath.string());
 
-		std::unique_ptr<TextProcessor> textExtractor = std::make_unique<TextProcessor>();
-		analysisResult = textExtractor->process(uuid);
-		interestLevel = analysisResult.interestLevel;
-		// TODO write interestLevel and description to MetaData in db
+        if (content.empty()) {
+            spdlog::warn("No content extracted from {}", uuid);
+            return false;
+        }
 
-		if (interestLevel == InterestLevel::Critical) {
-			spdlog::info("Sending email alert about critical information.");
-			// TODO send an email to someone
-		}
+        // Store extracted content in database
+        database_->UpdateExtractedContent(uuid, content, static_cast<int64_t>(content.size()));
 
-	    return true;
-	}
+        // Detect language
+        LanguageProcessor langProcessor;
+        auto langResult = langProcessor.process(uuid);
+
+        // Analyze content with LLM
+        TextProcessor textProcessor;
+        auto textResult = textProcessor.process(uuid);
+
+        // Update analysis in database
+        database_->UpdateAnalysis(uuid,
+                                 fileType,
+                                 langResult.language,
+                                 textResult.description,
+                                 ToString(textResult.interestLevel));
+
+        // Alert on critical findings
+        if (textResult.interestLevel == InterestLevel::Critical) {
+            spdlog::warn("CRITICAL artifact detected: {} - {}", uuid, textResult.description);
+            // TODO: Implement email alerting system
+        }
+
+        return true;
+    }
 
 }

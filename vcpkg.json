@@ -10,7 +10,8 @@
     "pugixml",
     "curl",
     "cli11",
-    "grpc"
+    "grpc",
+    "blake3"
   ],
   "builtin-baseline": "c9fa965c2a1b1334469b4539063f3ce95383653c"
 }
