@@ -225,6 +225,9 @@ PublishScripts/
 # vcpkg libraries
 vcpkg_installed/
 
+# vcbuild output
+build/
+
 # Microsoft Azure Build Output
 csx/
 *.build.csdef

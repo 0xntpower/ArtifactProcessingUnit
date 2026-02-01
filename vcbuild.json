@@ -1,0 +1,89 @@
+{
+  "project": {
+    "name": "ArtifactProcessingUnit",
+    "type": "exe",
+    "output_dir": "build",
+    "architecture": "x64"
+  },
+
+  "compiler": {
+    "standard": "c++20",
+    "runtime": "static",
+    "defines": [
+      "WIN32_LEAN_AND_MEAN",
+      "NOMINMAX",
+      "_SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING",
+      "_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS",
+      "UNICODE",
+      "_UNICODE"
+    ],
+    "warnings": {
+      "level": 3,
+      "as_errors": false,
+      "disabled": []
+    },
+    "additional_flags": [
+      "/external:anglebrackets",
+      "/external:W0"
+    ]
+  },
+
+  "linker": {
+    "libraries": [
+      "Ws2_32.lib",
+      "Crypt32.lib",
+      "Wldap32.lib",
+      "Normaliz.lib",
+      "Bcrypt.lib",
+      "Advapi32.lib",
+      "fmt.lib",
+      "zlib.lib",
+      "bz2.lib"
+    ],
+    "library_paths": [
+      "vcpkg_installed/x64-windows-static/x64-windows-static/lib"
+    ],
+    "subsystem": "console"
+  },
+
+  "sources": {
+    "include_dirs": [
+      "src/ArtifactProcessingUnit",
+      "vcpkg_installed/x64-windows-static/x64-windows-static/include"
+    ],
+    "source_dirs": [
+      "src/ArtifactProcessingUnit"
+    ],
+    "exclude_patterns": [
+      "**/pch.cpp"
+    ]
+  },
+
+  "profiles": {
+    "debug": {
+      "linker": {
+        "libraries": [
+          "Ws2_32.lib",
+          "Crypt32.lib",
+          "Wldap32.lib",
+          "Normaliz.lib",
+          "Bcrypt.lib",
+          "Advapi32.lib",
+          "fmtd.lib",
+          "zlibd.lib",
+          "bz2d.lib"
+        ],
+        "library_paths": [
+          "vcpkg_installed/x64-windows-static/x64-windows-static/debug/lib"
+        ]
+      }
+    },
+    "release": {
+      "linker": {
+        "library_paths": [
+          "vcpkg_installed/x64-windows-static/x64-windows-static/lib"
+        ]
+      }
+    }
+  }
+}
