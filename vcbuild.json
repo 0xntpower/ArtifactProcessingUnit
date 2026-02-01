@@ -48,11 +48,11 @@
 
   "sources": {
     "include_dirs": [
-      "src/ArtifactProcessingUnit",
+      "src",
       "vcpkg_installed/x64-windows-static/x64-windows-static/include"
     ],
     "source_dirs": [
-      "src/ArtifactProcessingUnit"
+      "src"
     ],
     "exclude_patterns": [
       "**/pch.cpp"
