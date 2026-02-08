@@ -7,6 +7,12 @@ namespace apu {
 
     namespace {
         constexpr char kDefaultConfig[] = R"({
+    "bins": {
+        "incoming": "incoming",
+        "flagged": "flagged",
+        "dismissed": "dismissed",
+        "corrupted": "corrupted"
+    },
     "scan-interval": "3m",
     "processing-batch-size": 20,
     "max-artifact-size": "10gb",
@@ -77,6 +83,22 @@ namespace apu {
                 }
             }
 
+            if (json.contains("bins")) {
+                const auto& bins = json["bins"];
+                if (bins.contains("incoming")) {
+                    config.bins.incoming = bins["incoming"].get<std::string>();
+                }
+                if (bins.contains("flagged")) {
+                    config.bins.flagged = bins["flagged"].get<std::string>();
+                }
+                if (bins.contains("dismissed")) {
+                    config.bins.dismissed = bins["dismissed"].get<std::string>();
+                }
+                if (bins.contains("corrupted")) {
+                    config.bins.corrupted = bins["corrupted"].get<std::string>();
+                }
+            }
+
             spdlog::info("Configuration loaded from: {}", configPath.string());
         } catch (const std::exception& e) {
             spdlog::error("Error parsing config values: {}", e.what());
@@ -87,6 +109,11 @@ namespace apu {
 
     void Config::Save(const std::filesystem::path& configPath) const {
         nlohmann::json json;
+
+        json["bins"]["incoming"] = bins.incoming;
+        json["bins"]["flagged"] = bins.flagged;
+        json["bins"]["dismissed"] = bins.dismissed;
+        json["bins"]["corrupted"] = bins.corrupted;
 
         json["scan-interval"] = std::format("{}m", scanInterval.count());
         json["processing-batch-size"] = processingBatchSize;
@@ -104,6 +131,15 @@ namespace apu {
 
         file << json.dump(4);
         spdlog::info("Configuration saved to: {}", configPath.string());
+    }
+
+    ResolvedBins Config::ResolveBins(const std::filesystem::path& baseDir) const {
+        return ResolvedBins{
+            baseDir / bins.incoming,
+            baseDir / bins.flagged,
+            baseDir / bins.dismissed,
+            baseDir / bins.corrupted
+        };
     }
 
     uint64_t Config::ParseSize(const std::string& sizeStr) {

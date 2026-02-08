@@ -1,4 +1,10 @@
 {
+    "bins": {
+        "incoming": "incoming",
+        "flagged": "flagged",
+        "dismissed": "dismissed",
+        "corrupted": "corrupted"
+    },
     "scan-interval": "3m",
     "processing-batch-size": 20,
     "max-artifact-size": "10gb",

@@ -12,10 +12,7 @@ namespace apu {
     class ArtifactsManager {
     public:
         ArtifactsManager(Config config,
-                        std::filesystem::path artifactsDir,
-                        std::filesystem::path interestingDir,
-                        std::filesystem::path notInterestingDir,
-                        std::filesystem::path badArtifactsDir,
+                        ResolvedBins bins,
                         Database* database);
 
         ~ArtifactsManager();
@@ -35,10 +32,7 @@ namespace apu {
         void MoveToDestination(const std::string& uniqueId, const std::filesystem::path& sourcePath);
 
         Config config_;
-        std::filesystem::path artifactsDir_;
-        std::filesystem::path interestingDir_;
-        std::filesystem::path notInterestingDir_;
-        std::filesystem::path badArtifactsDir_;
+        ResolvedBins bins_;
         Database* database_;
 
         std::vector<std::shared_ptr<IArtifactProcessor>> processors_;

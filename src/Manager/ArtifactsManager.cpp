@@ -5,28 +5,22 @@
 namespace apu {
 
     ArtifactsManager::ArtifactsManager(Config config,
-                                       std::filesystem::path artifactsDir,
-                                       std::filesystem::path interestingDir,
-                                       std::filesystem::path notInterestingDir,
-                                       std::filesystem::path badArtifactsDir,
+                                       ResolvedBins bins,
                                        Database* database)
         : config_(std::move(config)),
-          artifactsDir_(std::move(artifactsDir)),
-          interestingDir_(std::move(interestingDir)),
-          notInterestingDir_(std::move(notInterestingDir)),
-          badArtifactsDir_(std::move(badArtifactsDir)),
+          bins_(std::move(bins)),
           database_(database) {
 
-        std::filesystem::create_directories(artifactsDir_);
-        std::filesystem::create_directories(interestingDir_);
-        std::filesystem::create_directories(notInterestingDir_);
-        std::filesystem::create_directories(badArtifactsDir_);
+        std::filesystem::create_directories(bins_.incoming);
+        std::filesystem::create_directories(bins_.flagged);
+        std::filesystem::create_directories(bins_.dismissed);
+        std::filesystem::create_directories(bins_.corrupted);
 
-        spdlog::info("ArtifactsManager initialized");
-        spdlog::info("  Artifacts: {}", artifactsDir_.string());
-        spdlog::info("  Interesting: {}", interestingDir_.string());
-        spdlog::info("  Not Interesting: {}", notInterestingDir_.string());
-        spdlog::info("  Bad Artifacts: {}", badArtifactsDir_.string());
+        spdlog::info("ArtifactsManager initialized with bins:");
+        spdlog::info("  Incoming:  {}", bins_.incoming.string());
+        spdlog::info("  Flagged:   {}", bins_.flagged.string());
+        spdlog::info("  Dismissed: {}", bins_.dismissed.string());
+        spdlog::info("  Corrupted: {}", bins_.corrupted.string());
     }
 
     ArtifactsManager::~ArtifactsManager() {
@@ -88,7 +82,7 @@ namespace apu {
         for (const auto& uuid : uuids) {
             if (!running_) break;
 
-            const auto artifactPath = artifactsDir_ / uuid;
+            const auto artifactPath = bins_.incoming / uuid;
 
             if (!std::filesystem::exists(artifactPath)) {
                 spdlog::warn("Artifact file not found: {}", uuid);
@@ -176,7 +170,7 @@ namespace apu {
             std::filesystem::remove(artifactPath);
             spdlog::info("Deleted bad artifact: {}", uniqueId);
         } else {
-            const auto destPath = badArtifactsDir_ / uniqueId;
+            const auto destPath = bins_.corrupted / uniqueId;
             std::filesystem::rename(artifactPath, destPath);
             spdlog::info("Moved bad artifact to: {}", destPath.string());
         }
@@ -194,13 +188,13 @@ namespace apu {
         switch (metadata->interestLevel) {
         case InterestLevel::Interesting:
         case InterestLevel::Critical:
-            destDir = interestingDir_;
+            destDir = bins_.flagged;
             break;
         case InterestLevel::NotInteresting:
-            destDir = notInterestingDir_;
+            destDir = bins_.dismissed;
             break;
         default:
-            destDir = notInterestingDir_;
+            destDir = bins_.dismissed;
             break;
         }
 

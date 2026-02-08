@@ -23,56 +23,44 @@ namespace {
 int main(int argc, char* argv[]) {
     CLI::App app{ "ArtifactProcessingUnit - Document Processing and Classification System" };
 
-    std::string artifactsDir;
-    std::string interestingDir;
-    std::string notInterestingDir;
-    std::string badArtifactsDir;
     std::string configPath = "Config.json";
     std::string dbPath = "artifacts.db";
-    bool detectLocal = false;
 
-    app.add_option("--artifacts", artifactsDir, "Path to artifacts directory");
-    app.add_option("--interesting", interestingDir, "Path to interesting artifacts directory");
-    app.add_option("--notinteresting", notInterestingDir, "Path to not interesting artifacts directory");
-    app.add_option("--badartifacts", badArtifactsDir, "Path to bad artifacts directory");
     app.add_option("--config", configPath, "Path to config file");
     app.add_option("--database", dbPath, "Path to SQLite database file");
-    app.add_flag("--detectlocal", detectLocal, "Auto-detect folders in executable directory");
 
     CLI11_PARSE(app, argc, argv);
 
-    if (detectLocal) {
-        char exePath[MAX_PATH];
-        GetModuleFileNameA(nullptr, exePath, MAX_PATH);
-        std::filesystem::path exeDir = std::filesystem::path(exePath).parent_path();
+    // Resolve base directory from executable location
+    char exePath[MAX_PATH];
+    GetModuleFileNameA(nullptr, exePath, MAX_PATH);
+    const std::filesystem::path baseDir = std::filesystem::path(exePath).parent_path();
 
-        artifactsDir = (exeDir / "artifacts").string();
-        interestingDir = (exeDir / "interesting").string();
-        notInterestingDir = (exeDir / "notinteresting").string();
-        badArtifactsDir = (exeDir / "badartifacts").string();
-        configPath = (exeDir / "Config.json").string();
-        dbPath = (exeDir / "artifacts.db").string();
-
-        spdlog::info("Using local detection from: {}", exeDir.string());
+    // Resolve config and database paths relative to base dir if not absolute
+    if (!std::filesystem::path(configPath).is_absolute()) {
+        configPath = (baseDir / configPath).string();
     }
-
-    if (artifactsDir.empty() || interestingDir.empty() ||
-        notInterestingDir.empty() || badArtifactsDir.empty()) {
-        spdlog::error("All directory paths must be specified. Use --detectlocal or provide paths manually.");
-        return 1;
+    if (!std::filesystem::path(dbPath).is_absolute()) {
+        dbPath = (baseDir / dbPath).string();
     }
 
     try {
         spdlog::info("=== Artifact Processing Unit Starting ===");
-        spdlog::info("Artifacts: {}", artifactsDir);
-        spdlog::info("Interesting: {}", interestingDir);
-        spdlog::info("Not Interesting: {}", notInterestingDir);
-        spdlog::info("Bad Artifacts: {}", badArtifactsDir);
+        spdlog::info("Base directory: {}", baseDir.string());
         spdlog::info("Config: {}", configPath);
         spdlog::info("Database: {}", dbPath);
 
         // Load configuration
         auto config = apu::Config::Load(configPath);
+
+        // Resolve bin directories from config
+        const auto bins = config.ResolveBins(baseDir);
+
+        spdlog::info("Bins:");
+        spdlog::info("  Incoming:  {}", bins.incoming.string());
+        spdlog::info("  Flagged:   {}", bins.flagged.string());
+        spdlog::info("  Dismissed: {}", bins.dismissed.string());
+        spdlog::info("  Corrupted: {}", bins.corrupted.string());
         spdlog::info("Scan interval: {}m", config.scanInterval.count());
         spdlog::info("Batch size: {}", config.processingBatchSize);
         spdlog::info("Max artifact size: {} bytes", config.maxArtifactSizeBytes);
@@ -83,21 +71,14 @@ int main(int argc, char* argv[]) {
         database.Initialize();
 
         // Create artifacts manager
-        apu::ArtifactsManager manager(
-            config,
-            artifactsDir,
-            interestingDir,
-            notInterestingDir,
-            badArtifactsDir,
-            &database
-        );
+        apu::ArtifactsManager manager(config, bins, &database);
 
         // Register artifact processors
         manager.RegisterProcessor(
-            std::make_shared<apu::DocxProcessor>(&database, artifactsDir)
+            std::make_shared<apu::DocxProcessor>(&database, bins.incoming)
         );
         manager.RegisterProcessor(
-            std::make_shared<apu::PdfProcessor>(&database, artifactsDir)
+            std::make_shared<apu::PdfProcessor>(&database, bins.incoming)
         );
 
         // Setup signal handlers
